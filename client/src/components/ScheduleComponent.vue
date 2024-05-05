@@ -15,7 +15,7 @@
         <div class="schedule__content-teacher">
           <img src="../assets/images/icons/user1.png" alt="user" width="50px" />
           <div class="schedule__content-teacher-name">
-            <h3>Иса Нартайұлы</h3>
+            <h3> {{ getFullName() }}</h3>
             <h4>19:00 - 21:00</h4>
           </div>
         </div>
@@ -30,6 +30,10 @@
 <script setup>
 import ButtonCom from '@/components/littleComponent/ButtonComponent.vue'
 import ButtonAdd from '@/components/littleComponent/ButtonAdditional.vue'
+import { useFirebaseAuthUserStore } from '@/stores/firebaseAuth';
+import router from '@/router';
+
+const { getFullName } = useFirebaseAuthUserStore(router)
 
 const currentDate = new Date()
 const formattedDate = currentDate.toLocaleDateString('ru-RU', {

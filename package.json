@@ -16,7 +16,9 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"concurrently": "^8.2.2"
+		"concurrently": "^8.2.2",
+		"firebase": "^10.11.1",
+		"vuelidation": "^1.1.0"
 	},
 	"devDependencies": {
 		"sass": "^1.72.0"

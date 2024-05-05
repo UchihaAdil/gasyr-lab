@@ -313,6 +313,7 @@ export default {
 			register: {
 				title: 'Создать аккаунт',
 				inputName: 'Имя',
+				inputSurname: 'Фамилия',
 				inputEmail: 'Электронная почта',
 				inputPassword: 'Пароль',
 				signUp: 'Зарегистрироваться',

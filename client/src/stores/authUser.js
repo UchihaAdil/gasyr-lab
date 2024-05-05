@@ -6,10 +6,6 @@ export const useAuthUserStore = defineStore('auth', () => {
 	const isAuthUser = ref(localStorage.getItem('isAuth'))
 
 	const router = useRouter()
-
-
-
-
 	// Functions
 	function registrationUserCompleted(name, email, password) {
 		localStorage.setItem('isAuth', true)

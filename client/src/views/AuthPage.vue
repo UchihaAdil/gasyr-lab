@@ -6,7 +6,7 @@
 
       <div class="toggle-container">
         <div class="toggle">
-          <ButtonAdd @click="authUser.goHomePage()" class="btn btn--white btn--transform">{{
+          <ButtonAdd @click="goHomePage()" class="btn btn--white btn--transform">{{
             t('global.btn.back')
           }}</ButtonAdd>
           <div v-if="currentAuthPage === 'register'" class="toggle-panel toggle-left">
@@ -15,7 +15,7 @@
             </div>
             <h1 class="toggle__title">{{ t('page.auth.greetingSignIn') }}</h1>
             <p class="toggle__text">{{ t('page.auth.textSignIn') }}</p>
-            <Button class="btn btn--underline " @click="transitionRemoveMove()">{{
+            <Button class="btn btn--border " @click="transitionRemoveMove()">{{
               t('page.auth.login.signIn')
             }}</Button>
           </div>
@@ -26,7 +26,7 @@
             </div>
             <h1 class="toggle__title">{{ t('page.auth.greetingSignUp') }}</h1>
             <p class="toggle__text">{{ t('page.auth.textSignUp') }}</p>
-            <Button class="btn btn--underline" @click="transitionAddMove()">{{
+            <Button class="btn btn--border" @click="transitionAddMove()">{{
               t('page.auth.register.signUp')
             }}</Button>
           </div>
@@ -37,14 +37,12 @@
 </template>
 
 <script setup>
-// import { RouterView } from 'vue-router'
 import LangBtn from '@/components/littleComponent/ToggleBtnLang.vue'
 import { ref, onMounted, computed } from 'vue'
 import Login from '@/components/LoginComponent.vue'
 import Register from '@/components/RegisterComponent.vue'
 import Button from '@/components/littleComponent/ButtonComponent.vue'
 import ButtonAdd from '@/components/littleComponent/ButtonAdditional.vue'
-import { useAuthUserStore } from '@/stores/authUser.js'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 
@@ -53,12 +51,15 @@ const { t } = useI18n()
 const containerDiv = ref(null)
 const route = useRoute()
 const router = useRouter()
-const authUser = useAuthUserStore()
 
 // Sign In
 function transitionAddMove() {
   containerDiv.value.classList.add('active')
   router.push({ name: 'register' })
+}
+
+function goHomePage() {
+		router.push({ name: 'home' })
 }
 
 //Sign Up
@@ -84,6 +85,8 @@ onMounted(() => {
   }
 })
 </script>
+
+
 
 <style lang="scss" scoped>
 .toggle {

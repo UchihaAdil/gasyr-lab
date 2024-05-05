@@ -10,7 +10,7 @@
           <nav class="nav nav--hidden">
             <ul class="nav__list">
               <router-link :to="{ name: 'training' }">
-                <li v-if="authUser.checkLocalAuthUser()" class="nav__list-item">
+                <li v-if="isAuthUser" class="nav__list-item">
                   <a href="#" class="nav__link">{{ t('page.main.header.my_training') }}</a>
                 </li>
               </router-link>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="header__user header__user--hidden">
-          <div v-if="authUser.checkLocalAuthUser()" class="flex-box">
+          <div v-if="isAuthUser" class="flex-box">
             <button @click="toggleOpenDropdown()" class="header__user-btn header__user-btn--hidden">
               <img class="header__user-img" src="@/assets/images/icons/user1.png" alt="User icon" />
             </button>
@@ -54,8 +54,8 @@
               v-if="isOpenUserDropdown"
               class="header__user-dropdown header__user-dropdown--hidden"
             >
-              <div class="flex-box">
-                <p>{{ authUser.getName() }}</p>
+              <div class="f-col">
+                <p>{{ getFullName() }}</p>
                 <button class="btn btn--error" @click="loggedOutUser()">
                   {{ t('page.main.header.dropdown.log_out') }}
                 </button>
@@ -65,7 +65,7 @@
 
           <div class="burger burger--hidden">
             <div class="burger__wrapper">
-              <LangBtn v-if="!authUser.checkLocalAuthUser()"></LangBtn>
+              <LangBtn v-if="!isAuthUser"></LangBtn>
               <div>
                 <Transition mode="out-in" name="burger">
                   <button class="burger__btn" @click="toggleBurgerMenu()" v-if="!isOpenBurgerMenu">
@@ -106,7 +106,7 @@
           </div>
         </div>
 
-        <div v-if="!authUser.checkLocalAuthUser()" class="flex-box flex-box--hidden">
+        <div v-if="!isAuthUser" class="flex-box flex-box--hidden">
           <ThemeBtn></ThemeBtn>
           <LangBtn></LangBtn>
           <router-link :to="{ name: 'login' }" class="btn">
@@ -126,7 +126,7 @@
       >
         <ul v-if="isOpenBurgerMenu" class="mobile-dropdown__list">
           <router-link :to="{ name: 'training' }">
-            <li v-if="authUser.checkLocalAuthUser()" class="nav__list-item">
+            <li v-if="isAuthUser" class="nav__list-item">
               <a href="#" class="nav__link">{{ t('page.main.header.my_training') }}</a>
             </li>
           </router-link>
@@ -157,20 +157,20 @@
               >{{ t('page.main.header.contacts') }}</a
             >
           </li>
-          <li v-if="authUser.checkLocalAuthUser()" class="mobile-dropdown__list-item">
-            <div class="flex-box">
-              <p>{{ authUser.getName() }}</p>
+          <li v-if="isAuthUser" class="mobile-dropdown__list-item">
+            <div class="f-col">
+              <p>{{ getFullName() }}</p>
               <button class="btn btn--error" @click="loggedOutUser()">
                 {{ t('page.main.header.dropdown.log_out') }}
               </button>
             </div>
           </li>
-          <li v-if="!authUser.checkLocalAuthUser()" class="mobile-dropdown__list-item">
+          <li v-if="!isAuthUser" class="mobile-dropdown__list-item">
             <router-link :to="{ name: 'login' }" class="btn">{{
               t('page.main.header.login')
             }}</router-link>
           </li>
-          <li v-if="!authUser.checkLocalAuthUser()" class="mobile-dropdown__list-item">
+          <li v-if="!isAuthUser" class="mobile-dropdown__list-item">
             <router-link :to="{ name: 'register' }" class="btn">{{
               t('page.main.header.register')
             }}</router-link>
@@ -189,8 +189,9 @@ import LangBtn from '@/components/littleComponent/ToggleBtnLang.vue'
 import ThemeBtn from '@/components/littleComponent/ToggleBtnTheme.vue'
 import { useThemeModeStore } from '@/stores/themeMode.js'
 import Button from '@/components/littleComponent/ButtonComponent.vue'
-import { useAuthUserStore } from '@/stores/authUser'
 import { goHashTag } from '@/stores/routerGo.js'
+
+import { useFirebaseAuthUserStore } from '@/stores/firebaseAuth'
 
 const theme = useThemeModeStore()
 
@@ -200,14 +201,12 @@ const isOpenUserDropdown = ref(false)
 const isOpenBurgerMenu = ref(false)
 const dropdownLaptop = ref(null)
 const dropdownMobile = ref(null)
+const { isAuthUser, loggedOut, checkFirebaseAuthUser, getFullName} = useFirebaseAuthUserStore(router)
 
 // const hashTagLink = ref(null)
 
-const authUser = useAuthUserStore()
-
 const handleClickCloseDropdown = (event) => {
   if (
-    isOpenUserDropdown.value &&
     !event.target.closest('.header__user-dropdown') &&
     !event.target.closest('.header__user-btn')
   ) {
@@ -229,8 +228,8 @@ function toggleOpenDropdown() {
 }
 
 function loggedOutUser() {
-  authUser.loggedOut()
-  window.location.reload()
+  loggedOut();
+  closeDropdown();
 }
 
 function closeDropdown() {
@@ -246,8 +245,7 @@ function toggleBurgerMenu() {
 }
 
 onMounted(() => {
-  authUser.checkLocalAuthUser()
-  // isAuthUser.value = localStorage.getItem('isAuth') ? localStorage.getItem('isAuth') : false
+  checkFirebaseAuthUser()
   document.addEventListener('click', handleClickCloseDropdown)
   document.addEventListener('click', handleClickCloseMobileDropdown)
 })
@@ -261,6 +259,11 @@ onBeforeMount(() => {
 <style lang="scss" scoped>
 @use '@/assets/scss/abstracts' as abs;
 
+.f-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 .header {
   &__wrapper {
     margin-top: 40px;

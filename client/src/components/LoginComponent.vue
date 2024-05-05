@@ -1,88 +1,103 @@
 <template>
   <div class="form-container sign-in">
-    <form @submit.prevent="submitForm()" class="container-auth__form">
-      <ButtonAdd @click="authUser.goHomePage()" class="btn btn--transform btn--transformTwo">
-        {{ t('global.btn.back') }}
-      </ButtonAdd>
+    <form @submit.prevent="signInUser()" class="container-auth__form">
+      <ButtonAdd @click="authUser.goHomePage()" class="btn btn--transform">Назад</ButtonAdd>
       <h1 class="container-auth__title">{{ t('page.auth.login.title') }}</h1>
       <input
         class="container-auth__input"
         type="email"
         :placeholder="t('page.auth.login.inputEmail')"
-        autocomplete="current-email"
-        v-model="v$.loginEmail.$model"
+        v-model="email"
+        @blur="emailTouched = true"
       />
+      <span v-if="!isValidEmail(email) && emailTouched" class="container-auth__error">
+        {{ t('page.auth.register.errors.correctEmail') }}
+      </span>
       <input
         class="container-auth__input"
         type="password"
         :placeholder="t('page.auth.login.inputPassword')"
-        autocomplete="current-password"
-        v-model="v$.loginPassword.$model"
+        v-model="password"
+        @blur="passwordTouched = true"
       />
-      <p v-if="errorMessage" class="container-auth__error-message">{{ errorMessage }}</p>
-      <ButtonCom @submit.prevent="submitForm()" type="submit" class="btn btn--primary">{{
-        t('page.auth.login.signIn')
-      }}</ButtonCom>
+      <span v-if="!password.trim() && passwordTouched" class="container-auth__error">
+        {{ t('page.auth.login.errors.existingPasswordAndEmail') }}
+      </span>
+      <span v-if="loginError" class="container-auth__error">{{ loginError }}</span>
+      <ButtonCom type="submit" class="btn btn--primary">{{ t('page.auth.login.signIn') }}</ButtonCom>
     </form>
   </div>
 </template>
 
 <script>
-import { useI18n } from 'vue-i18n'
-import ButtonAdd from '@/components/littleComponent/ButtonAdditional.vue'
-import ButtonCom from '@/components/littleComponent/ButtonComponent.vue'
-import { useVuelidate } from '@vuelidate/core'
-import { required, email, minLength } from '@vuelidate/validators'
-import { useAuthUserStore } from '@/stores/authUser.js'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import ButtonAdd from '@/components/littleComponent/ButtonAdditional.vue';
+import ButtonCom from '@/components/littleComponent/ButtonComponent.vue';
+import { useFirebaseAuthUserStore } from '@/stores/firebaseAuth';
+import { useRouter } from 'vue-router';
+
 export default {
   components: {
     ButtonAdd,
     ButtonCom
   },
   setup() {
-    const authUser = useAuthUserStore()
-    const { t } = useI18n()
-    const router = useRouter()
+    const { t } = useI18n();
+    const email = ref('');
+    const password = ref('');
+    const emailTouched = ref(false);
+    const passwordTouched = ref(false);
+    const loginError = ref('');
+    const router = useRouter();
+    const { loggedIn } = useFirebaseAuthUserStore(router);
+    const authUser = useFirebaseAuthUserStore(router);
 
-    return {
-      v$: useVuelidate(),
-      t,
-      authUser,
-      router
-    }
-  },
-  data() {
-    return {
-      loginEmail: '',
-      loginPassword: '',
-      errorMessage: ''
-    }
-  },
-  validations() {
-    return {
-      loginEmail: { required, email },
-      loginPassword: { required, minLength: minLength(6) }
-    }
-  },
-  methods: {
-    async submitForm() {
-      const isFormCorrect = await this.v$.$validate()
-      if (!isFormCorrect) return
+    const isValidEmail = (email) => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    };
 
-      const isAuth = this.authUser.loggedIn(this.loginEmail, this.loginPassword)
+    const signInUser = async () => {
+      // Сброс ошибки при новой попытке входа
+      loginError.value = '';
 
-      if (!isAuth) {
-        this.errorMessage = this.t('page.auth.login.errors.existingPasswordAndEmail')
-        return
+      if (!isValidEmail(email.value)) {
+        loginError.value = t('page.auth.login.errors.correctEmail');
+        return;
       }
 
-      this.loginEmail = ''
-      this.loginPassword = ''
-      this.errorMessage = ''
+      if (!password.value.trim()) {
+        loginError.value = t('page.auth.login.errors.existingPasswordAndEmail');
+        return;
+      }
 
-      this.router.push({ name: 'home' })
-    }
+      try {
+        await loggedIn(email.value, password.value);
+      } catch (error) {
+        loginError.value = error.message;
+      }
+    };
+
+    return {
+      t,
+      email,
+      password,
+      emailTouched,
+      passwordTouched,
+      signInUser,
+      authUser,
+      isValidEmail,
+      loginError,
+    };
   }
-}
+};
 </script>
+
+<style scoped>
+.container-auth__error {
+  color: red;
+  font-size: 0.8rem;
+  margin-left: 10px;
+}
+</style>

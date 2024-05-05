@@ -317,6 +317,7 @@ export default {
       register: {
         title: 'Тіркелу',
         inputName: 'Аты',
+        inputSurname: 'Тегі',
         inputEmail: 'Электронды пошта',
         inputPassword: 'Құпия сөз',
         signUp: 'Тіркелу',

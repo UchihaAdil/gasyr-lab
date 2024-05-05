@@ -306,6 +306,7 @@ export default {
         inputPassword: 'Password',
         signIn: 'Sign In',
         errors: {
+          correctEmail: 'Enter the correct email',
           requiredField: 'Required field',
           existingPasswordAndEmail: 'Enter the correct email and password'
         }
@@ -313,6 +314,7 @@ export default {
       register: {
         title: 'Create Account',
         inputName: 'Name',
+        inputSurname: 'Surname',
         inputEmail: 'Email',
         inputPassword: 'Password',
         signUp: 'Sign Up',

@@ -49,8 +49,21 @@ const { t } = useI18n()
       inset -4px -4px 8px #b071ef;
   }
 
+
   &--error {
     color: red;
+  }
+
+  &--border {
+    border: 2px solid white;
+    padding: 10px 20px;
+    border-radius: 14px;
+    transition: all 0.1s linear;
+
+    &:hover {
+      background-color: white;
+      color: #8160c4;
+    }
   }
 
   &--outline {
