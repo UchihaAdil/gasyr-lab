@@ -30,7 +30,9 @@
 import { useI18n } from 'vue-i18n'
 import Button from '@/components/littleComponent/ButtonComponent.vue'
 import { useMyTrainingStore } from '@/stores/myTraining'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const { t } = useI18n()
 const { tm } = useI18n()
 const myTraining = useMyTrainingStore()
@@ -60,6 +62,8 @@ function addToTraining(id) {
   console.log(tm('page.main.main.ourCourses.courses'))
   console.log(id)
   myTraining.addMyCourses(id, tm('page.main.main.ourCourses.courses'))
+  router.push({ name: 'training'})
+
 }
 </script>
 
