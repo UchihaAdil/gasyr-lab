@@ -25,7 +25,7 @@
                   {{ cardData.titleDescription() }}
                 </p>
                 <a href="#tarifs">
-                  <Button href="#tarifs" class="btn btn--primary-reverse intro-course__btn">{{
+                  <Button href="#tarifs" class="btn btn--primary intro-course__btn">{{
                     tm('global.btn.bookCourse')
                   }}</Button>
                 </a>
