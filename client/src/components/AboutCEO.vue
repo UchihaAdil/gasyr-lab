@@ -10,19 +10,15 @@
         <div class="aboutCEO__content">
           <div class="aboutCEO__content-title">
             <div>
-              <h2 class="title">Якуб Халыкбердиев</h2>
+              <h2 class="title">{{ t('page.main.main.aboutCEO.title') }}</h2>
               <h3>CEO Gasyr Foundation School & GasyrLab</h3>
             </div>
             <img class="spin" src="../assets/images/shapes/spin.png" alt="spin" />
           </div>
           <p>
-            Выдающийся лидер и стратег, с более чем десятилетним опытом в образовании. Его
-            руководящая деятельность в этом проекте сосредоточена на внедрении инновационных методов
-            обучения и развитии, обеспечивая таким образом высокий уровень образовательных услуг.
+            {{ t('page.main.main.aboutCEO.descriptionFirst') }}
             <br /><br />
-            Его мечта - не просто дать знания, но и убедиться, что эти знания сохранятся и будут
-            переданы от одного поколения к другому, что является ключевой частью философии Gasyr
-            Foundation.
+            {{ t('page.main.main.aboutCEO.descriptionSecond') }}
           </p>
           <div class="aboutCEO__media">
             <img class="cube" src="../assets/images/shapes/cube.png" alt="cube" />
@@ -38,16 +34,16 @@
                 </a>
               </li>
               <li class="social-item">
-                <a class="social-link" target="_blank" href="https://www.instagram.com/jakubfity?igsh=d2R5YzMzZmJnbTl3">
+                <a
+                  class="social-link"
+                  target="_blank"
+                  href="https://www.instagram.com/jakubfity?igsh=d2R5YzMzZmJnbTl3"
+                >
                   <img src="../assets/images/icons/instagram.svg" alt="insta" />
                 </a>
               </li>
               <li class="social-item">
-                <a
-                  class="social-link"
-                  target="_blank"
-                  href="https://t.me/jakubfity"
-                >
+                <a class="social-link" target="_blank" href="https://t.me/jakubfity">
                   <img src="../assets/images/icons/Telegram.png" alt="telegram" />
                 </a>
               </li>
@@ -59,7 +55,11 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
+</script>
 
 <style lang="scss" scoped>
 @use '@/assets/scss/abstracts/' as abs;

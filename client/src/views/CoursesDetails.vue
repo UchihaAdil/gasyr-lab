@@ -25,7 +25,7 @@
                   {{ cardData.titleDescription() }}
                 </p>
                 <a href="#tarifs">
-                  <Button href="#tarifs" class="btn btn--outline intro-course__btn">{{
+                  <Button href="#tarifs" class="btn btn--primary-reverse intro-course__btn">{{
                     tm('global.btn.bookCourse')
                   }}</Button>
                 </a>
@@ -51,7 +51,9 @@
 
             <div class="flex-box about-prof__box">
               <div class="about-prof__footer">
-                <h2 class="about-prof__footer-title">{{ cardData.duration }} недель</h2>
+                <h2 class="about-prof__footer-title">
+                  {{ cardData.duration }} {{ cardData.weeks }}
+                </h2>
                 <p class="description about-prof__footer-desc">
                   {{ cardData.aboutProfession.durationDescription }}
                 </p>
@@ -86,15 +88,15 @@
             <div class="content-list__box">
               <h2 class="content-list__title">{{ cardData.contentsCourse.title }}</h2>
               <div class="content-list__box-inner">
-                <p>{{ cardData.contentsCourse.description }}</p>
+                <p>{{ cardData.contentsCourse.description() }}</p>
                 <div class="flex-box">
                   <p>
-                    <span class="content-list__decor">{{ cardData.duration }}</span> месяцев
-                    обучения
+                    <span class="content-list__decor">{{ cardData.duration }}</span>
+                    {{ cardData.contentsCourse.trainingMonth }}
                   </p>
                   <p>
                     <span class="content-list__decor">{{ cardData.fullProjects }}</span>
-                    итоговых проекта
+                    {{ cardData.contentsCourse.finalProjects }}
                   </p>
                 </div>
               </div>
@@ -136,7 +138,7 @@
               <p class="choose-tarif__desc">{{ tarif.description }}</p>
               <ul class="choose-tarif__list">
                 <li v-for="(listData, index) in tarif.list" :key="index" class="choose-tarif__item">
-                  {{ listData.title }}
+                  {{ listData.title() }}
                 </li>
               </ul>
               <Button class="btn btn--outline" @click="openModal(tarif.title)">{{
@@ -151,6 +153,7 @@
                   @close-modal="closeModal()"
                   :data="cardData.modalWindow"
                   :title="currentTarif"
+                  :courseId="props.courseId"
                 ></Modal>
               </transition>
             </teleport>
@@ -177,9 +180,9 @@ import Waves from '@/components/WavesAnimation.vue'
 import { useCounterStore } from '@/composables/counter.js'
 import { useI18n } from 'vue-i18n'
 import { ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
 
-const route = useRoute()
+const props = defineProps(['courseId'])
+
 const counter = useCounterStore()
 const cardData = ref(null)
 const isModal = ref(false)
@@ -201,7 +204,7 @@ function openModal(tarif) {
 }
 function refreshLang() {
   const tmp = tm('page.main.main.ourCourses.courses')
-  cardData.value = tmp.find((item) => item.id === +route.params.courseId)
+  cardData.value = tmp.find((item) => item.id === +props.courseId)
 }
 onMounted(() => {
   refreshLang()
@@ -308,7 +311,7 @@ onMounted(() => {
   }
 
   &__header {
-    background: radial-gradient(circle, rgba(156, 152, 226, 1) 9%, rgba(123, 63, 242, 1) 97%);
+    background: radial-gradient(circle, rgba(156, 152, 226, 1) 9%, rgb(63, 81, 242) 97%);
     border-radius: 20px;
     padding: clamp(1.375rem, 0.875rem + 2.5vw, 2.75rem) clamp(1.375rem, 0.875rem + 2.5vw, 2.75rem)
       clamp(1.75rem, 1.114rem + 3.18vw, 3.5rem);

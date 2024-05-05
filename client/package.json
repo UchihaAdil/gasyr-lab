@@ -25,6 +25,7 @@
     "swiper": "^11.1.0",
     "v-calendar": "^3.1.2",
     "vue": "^3.4.21",
+    "vue-core-video-player": "^0.2.0",
     "vue-i18n": "^9.9.0",
     "vue-router": "^4.3.0",
     "zeptojs": "^1.1.4"

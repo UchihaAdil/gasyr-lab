@@ -1,9 +1,9 @@
 <template>
-  <div class="card">
+  <div v-for="eduCard in props.courseData" :key="eduCard.id" class="card">
     <div class="card__text">
-      <h2>Title</h2>
-      <p>Lorem ipsum dolor sit amet.</p>
-      <ButtonAdd class="btn"></ButtonAdd>
+      <h2>{{ eduCard.title }}</h2>
+      <!-- <p>Lorem ipsum dolor sit amet.</p> -->
+      <ButtonAdd @click="goVideoPage(eduCard)" class="btn"></ButtonAdd>
     </div>
     <div class="card__img">
       <img src="../assets/images/icons/graduation.png" alt="" />
@@ -13,6 +13,17 @@
 
 <script setup>
 import ButtonAdd from '@/components/littleComponent/ButtonAdditional.vue'
+import { useRouter } from 'vue-router'
+
+const props = defineProps(['courseData'])
+const router = useRouter()
+
+// console.log(props.courseData, 498498496)
+
+function goVideoPage(data) {
+  localStorage.setItem('currentLesson', JSON.stringify(data))
+  router.push({ name: 'video', params: { id: data.id } })
+}
 </script>
 
 <style lang="scss" scoped>

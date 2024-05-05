@@ -44,8 +44,9 @@ Our team is creating a website for the __"Gasyr Foundation School"__ that offers
 | ---------------- | -------------- |
 | Dinmuhammed Muslimuly | Team-Leader :star:  |
 | Rahimzhanov Rustem   | Project Manager      |
-| Nartaiuly Issa    | Developer & UX/UI Designer     |
-| Beisembay Norem | Developer & UX/UI Designer     |
+| Nartaiuly Issa    | FrontEnd Developer & UX/UI Designer     |
+| Beisembay Norem | FrontEnd Developer & UX/UI Designer     |
+| Bolatkhan Adil | Backend developer |
 | Shermakhan Omar        | Supporter      |
 
 <br>

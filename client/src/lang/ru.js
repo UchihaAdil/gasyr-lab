@@ -1,6 +1,6 @@
 import pythonSvg from '@/assets/images/courses/preview/python.svg'
-import javaSvg from '@/assets/images/courses/preview/java.svg'
-import dataAnalyticsSvg from '@/assets/images/courses/preview/dataAnalytics.svg'
+// import javaSvg from '@/assets/images/courses/preview/java.svg'
+// import dataAnalyticsSvg from '@/assets/images/courses/preview/dataAnalytics.svg'
 import pythonLogo from '@/assets/images/courses/python.png'
 export default {
 	theme: {
@@ -43,10 +43,15 @@ export default {
 							titleDescription() {
 								return `Python просто выучить, даже если вы никогда не программировали. Во время обучения вам будет помогать эксперт-куратор. Вы разработаете ${this.fullProjects} проекта для портфолио, а Центр карьеры поможет найти работу Python-разработчиком.`
 							},
-							cardDescription() { return `Наш курс состоит из ${this.contentsCourse.allListChapters()} уроков/ ${this.contentsCourse.list.length} частей. В вашем портфолио будет ${this.fullProjects} проекта до конца курса. Длительность: ${this.duration} недель. ` },
+							cardDescription() {
+								return `Наш курс состоит из ${this.contentsCourse.allListChapters()} уроков/ ${this.contentsCourse.list.length} частей. В вашем портфолио будет ${this.fullProjects} проекта до конца курса. Длительность: ${this.duration} недель. `
+							},
 
 							duration: 28,
+							weeks: 'недель',
 							fullProjects: 3,
+							currency: 'тенге',
+
 							previewImage: pythonSvg,
 							courseImage: pythonLogo,
 							circleItem: ['Онлайн', 'Старт: 6 мая'],
@@ -69,7 +74,11 @@ export default {
 							},
 							contentsCourse: {
 								title: 'Содержание курсов',
-								description: `Вы найдете {this.fullProjects} блоков по программированию на Python с разным уровнем сложности и дополнительные курсы.`,
+								fullProjects: 3,
+
+								description() { return `Вы найдете ${this.list.length} блоков по программированию на Python с разным уровнем сложности и дополнительные курсы.` },
+								trainingMonth: 'месяцов обучение',
+								finalProjects: 'итоговые проекты',
 								allListChapters() {
 									let sum = 0
 									this.list.forEach(item => sum += item.accordionList.length)
@@ -181,59 +190,91 @@ export default {
 								title: 'Выберите ваш тариф',
 								paket: [
 									{
-										title: 'Стадарт',
+										title: 'Standart',
 										description: 'Интенсивное обучение в группе студентов',
 										list: [
 											{
-												title: '3 проекта в портфолио'
+												fullProjects: 3,
+												title: function () {
+													return `${this.fullProjects} проекта в портфолио`;
+												}
 											},
 											{
-												title: 'Карьерный трек'
+												title: function () {
+													return 'Карьерный трек';
+												}
 											},
 											{
-												title: 'Гарантия трудоустройства'
+												title: function () {
+													return 'Гарантия трудоустройства';
+												}
 											},
 											{
-												title: 'Бессрочный доступ к учебным материалам'
+												title: function () {
+													return 'Бессрочный доступ к учебным материалам';
+												}
 											},
 											{
-												title: 'Комплексная подготовка'
+												title: function () {
+													return 'Комплексная подготовка';
+												}
 											},
 											{
-												title: 'Профориентация'
+												title: function () {
+													return 'Профориентация';
+												}
 											}
 										]
 									},
 									{
-										title: 'Стадарт',
-										description: 'Интенсивное обучение в группе студентов',
+										title: 'Ultimate',
+										description: 'Интенсивное и индивидуальное обучение',
 										list: [
 											{
-												title: '3 проекта в портфолио'
+												fullProjects: 3,
+												title: function () {
+													return `${this.fullProjects} проектов в портфолио`;
+												}
 											},
 											{
-												title: 'Карьерный трек'
+												title: function () {
+													return 'Карьерная траектория';
+												}
 											},
 											{
-												title: 'Гарантия трудоустройства'
+												title: function () {
+													return 'Гарантия трудоустройства';
+												}
 											},
 											{
-												title: 'Бессрочный доступ к учебным материалам'
+												title: function () {
+													return 'Неограниченный доступ к учебным материалам';
+												}
 											},
 											{
-												title: 'Комплексная подготовка'
+												title: function () {
+													return 'Полное обучение';
+												}
 											},
 											{
-												title: 'Профориентация'
+												title: function () {
+													return 'Профессиональная ориентация';
+												}
 											},
 											{
-												title: 'Персональное расписание'
+												title: function () {
+													return 'Личное расписание';
+												}
 											},
 											{
-												title: 'Индивидуальная траектория обучения'
+												title: function () {
+													return 'Индивидуальная траектория обучения';
+												}
 											},
 											{
-												title: '80 часов персональных консультаций с наставником'
+												title: function () {
+													return '80 часов личных консультаций с наставником';
+												}
 											}
 										]
 									}
@@ -252,6 +293,13 @@ export default {
 							}
 						}
 					]
+				},
+				aboutCEO: {
+					title: 'Якуб Халыкбердиев',
+					descriptionFirst:
+						'Выдающийся лидер и стратег, с более чем десятилетним опытом в образовании. Его руководящая деятельность в этом проекте сосредоточена на внедрении инновационных методов обучения и развитии, обеспечивая таким образом высокий уровень образовательных услуг.',
+					descriptionSecond:
+						'Его мечта - не просто дать знания, но и убедиться, что эти знания сохранятся и будут переданы от одного поколения к другому, что является ключевой частью философии Gasyr Foundation.'
 				},
 				subscription: {
 					title: 'Поможем с выбором',
@@ -323,6 +371,18 @@ export default {
 					correctEmail: 'Введите корректный адрес электронной почты'
 				}
 			}
+		},
+		training: {
+			nav: {
+				education: 'Обучение',
+				task: 'Задания',
+				form: 'Анкеты',
+				mentors: 'Наставники',
+				journal: 'Журнал',
+				settings: 'Настройки'
+			},
+			preparation: 'Подготовка',
+			lessonRecord: 'Урок в записи'
 		}
 		// ... another page texts
 	},
@@ -333,7 +393,9 @@ export default {
 			move: 'Перейти',
 			back: 'Назад',
 			bookCourse: 'Записаться на курс',
-			demand: 'Оставить заявку'
+			demand: 'Оставить заявку',
+			today: 'Сегодня',
+			calendar: 'Календарь'
 		}
 	}
 }

@@ -39,7 +39,7 @@ const props = defineProps({
 .tab__content {
   height: 0;
   overflow: hidden;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid white;
   margin-top: 8px;
 }
 .tab input:checked ~ .tab__content {

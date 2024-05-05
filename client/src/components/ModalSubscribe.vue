@@ -17,7 +17,9 @@
         <input type="email" class="modal__input" :placeholder="data.input.email" />
         <input type="text" class="modal__input" :placeholder="data.input.tel" />
 
-        <Button class="btn btn--primary"> {{ t('global.btn.subscribe') }}</Button>
+        <Button @click="addToTraining(+courseId)" class="btn btn--primary">
+          {{ t('global.btn.subscribe') }}</Button
+        >
       </form>
       <p class="modal__desc">{{ data.description }}</p>
     </div>
@@ -27,8 +29,11 @@
 <script setup>
 import { useI18n } from 'vue-i18n'
 import Button from '@/components/littleComponent/ButtonComponent.vue'
+import { useMyTrainingStore } from '@/stores/myTraining'
 
 const { t } = useI18n()
+const { tm } = useI18n()
+const myTraining = useMyTrainingStore()
 
 const props = defineProps({
   title: {
@@ -38,6 +43,10 @@ const props = defineProps({
   data: {
     type: Object,
     default: () => {}
+  },
+  courseId: {
+    type: String,
+    default: () => ' '
   }
 })
 
@@ -45,6 +54,12 @@ const emit = defineEmits(['closeModal'])
 
 function closeModal() {
   emit('closeModal')
+}
+
+function addToTraining(id) {
+  console.log(tm('page.main.main.ourCourses.courses'))
+  console.log(id)
+  myTraining.addMyCourses(id, tm('page.main.main.ourCourses.courses'))
 }
 </script>
 

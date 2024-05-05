@@ -3,37 +3,40 @@
     <ul>
       <li class="active">
         <img src="../assets/images/icons/graduation.png" alt="icon" width="20" /><a href="#!"
-          >Обучение</a
+          >{{ t('page.training.nav.education') }}</a
         >
       </li>
       <li>
         <img src="../assets/images/icons/task.png" alt="icon" width="20" /><a class="task" href="#!"
-          >Задания</a
+          >{{ t('page.training.nav.task') }}</a
         >
       </li>
       <li>
-        <img src="../assets/images/icons/form.png" alt="icon" width="20" /><a href="#!">Анкеты</a>
+        <img src="../assets/images/icons/form.png" alt="icon" width="20" /><a href="#!">{{ t('page.training.nav.form') }}</a>
       </li>
       <li>
         <img src="../assets/images/icons/group.png" alt="icon" width="20" /><a href="#!"
-          >Наставники</a
+          >{{ t('page.training.nav.mentors') }}</a
         >
       </li>
       <li>
         <img src="../assets/images/icons/journal.png" alt="icon" width="20" /><a href="#!"
-          >Журнал</a
+          >{{ t('page.training.nav.journal') }}</a
         >
       </li>
       <li>
         <img src="../assets/images/icons/setting.png" alt="icon" width="20" /><a href="#!"
-          >Настройки</a
+          >{{ t('page.training.nav.settings') }}</a
         >
       </li>
     </ul>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()</script>
 
 <style lang="scss" scoped>
 @use '@/assets/scss/abstracts' as abs;
